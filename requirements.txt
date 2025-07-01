@@ -1,0 +1,22 @@
+# Microframework web para criar APIs e aplicações web em Python de forma simples e modular.
+Flask==3.1.1
+# Permite habilitar CORS (Cross-Origin Resource Sharing) em aplicações Flask, essencial para front-ends acessarem a API.
+Flask-Cors==6.0.1
+# Adiciona suporte a documentação automática (via OpenAPI 3) e validação de dados em APIs Flask.
+flask-openapi3==4.1.0
+# Fornece uma interface gráfica web com o Swagger UI (frontend) embutida no Flask.
+flask-openapi3-swagger==5.24.1
+# Integração do Flask com SQLAlchemy, facilitando o uso de banco de dados relacional com ORM.
+Flask-SQLAlchemy==3.1.1
+# Framework de testes automatizados para rodar e organizar testes em projetos Python.
+nose2==0.15.1
+# Validação e parsing de dados com tipagem forte baseada em Python 3.7+, muito usado com APIs.
+pydantic==2.11.7
+# Biblioteca de ORM e SQL toolkit para modelar e interagir com bancos relacionais em Python.
+SQLAlchemy==2.0.41
+# Extensão com tipos adicionais e utilitários úteis para projetos com SQLAlchemy.
+SQLAlchemy-Utils==0.41.2
+# Fornece anotações de tipos que ainda não fazem parte da biblioteca typing oficial do Python.
+typing_extensions==4.14.0
+# Toolkit WSGI que fornece utilitários fundamentais para o Flask, como roteamento e servidor HTTP embutido.
+werkzeug==3.1.3
