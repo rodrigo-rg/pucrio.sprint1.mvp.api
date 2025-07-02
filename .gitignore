@@ -1,0 +1,8 @@
+# Arquivos do cache do Python
+__pycache__/
+model/__pycache__/
+schemas/__pycache__/
+# Arquivos do ambiente virtual
+.venv/
+# Banco de dados
+database/

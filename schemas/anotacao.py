@@ -7,23 +7,23 @@ from datetime import date
 class AnotacaoSchema(BaseModel):
     """ Anotação retornada.
     """
-    anotacao_id: int = 1
-    data_execucao: Optional[str] = date.today().isoformat()  # Data no formato ISO 8601, ex: "2023-10-01"
-    serie: int = 1
-    repeticoes: int = 1
-    carga: int = 60
-    comentario: Optional[str] = "Boa disposição hoje"
+    anotacao_id: int
+    data_execucao: Optional[str]
+    serie: int
+    repeticoes: int
+    carga: int
+    comentario: Optional[str]
 
 
 class AnotacaoNewSchema(BaseModel):
     """ Anotação a ser inserida.
     """
-    exercicio_nome: str = "Supino reto"
+    exercicio_nome: str = "Supino reto com halteres"
     data_execucao: str = date.today().strftime("%d/%m/%Y")  # Data no formato dd/mm/aaaa
     serie: int = 1
     repeticoes: int = 8
     carga: int = 60
-    comentario: Optional[str] = "Boa disposição hoje"
+    comentario: Optional[str] = "Boa disposição hoje."
 
 
 class AnotacaoViewSchema(BaseModel):

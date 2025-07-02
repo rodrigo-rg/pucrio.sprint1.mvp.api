@@ -1,6 +1,10 @@
 # Backend do MVP Musculação_App
 
-Este é o backend do MVP do aplicativo Musculação_App, desenvolvido para auxiliar no acompanhamento de treinos de musculação. O projeto foi criado utilizando Python e Flask.
+Este é o backend do MVP do aplicativo Musculação_App, desenvolvido para auxiliar no acompanhamento de treinos de musculação.
+
+O projeto foi criado para fornecer uma API RESTful que permite o gerenciamento de anotações de treinos, incluindo a adição, remoção e consulta de anotações de exercícios. O usuário será capaz de registrar diariamente os exercícios realizados, séries e repetições, facilitando o acompanhamento do progresso nos treinos.
+
+O projeto foi criado utilizando Python e Flask.
 
 ## Como executar 
 
@@ -48,3 +52,32 @@ Execute o seguinte comando:
 ```
 
 Abra o [http://localhost:5000/#/](http://localhost:5000/#/) no navegador para verificar a API em execução.
+
+## Documentação da API
+
+A documentação da API pode ser acessada através do endpoint `/openapi`. Utilize o link abaixo para visualizar a documentação:
+
+- [Swagger](http://localhost:5000/openapi/swagger)
+
+## Estrutura do Projeto
+
+```.
+model\           # Pasta contendo os modelos de dados
+    __init__.py  # Inicialização do pacote
+    anotacao.py  # Modelo de Anotação
+    exercicio.py # Modelo de Exercício
+schemas\         # Pasta contendo os esquemas de validação
+    __init__.py  # Inicialização do pacote
+    anotacao.py  # Esquema de Anotação
+    exercicio.py # Esquema de Exercício
+    error.py     # Esquema de Erro
+app.py           # Arquivo principal da aplicação Flask
+requirements.txt # Dependências do projeto
+```
+
+## Rotas da API
+
+- `GET /anotacao` - Retorna uma anotação específica pelo ID.
+- `GET /anotacoes` - Retorna todas as anotações.
+- `POST /anotacao` - Adiciona uma nova anotação.
+- `DELETE /anotacao` - Remove uma anotação existente pelo ID.

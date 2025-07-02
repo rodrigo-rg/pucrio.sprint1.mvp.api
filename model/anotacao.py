@@ -19,7 +19,7 @@ class Anotacao(Base):
     # Carga utilizada nessa série (geralmente em kg).
     carga = Column(Integer, nullable=False)
     # Comentário sobre a execução dessa série.
-    comentario = Column(String(200))
+    comentario = Column(String(100))
 
     def __init__(self, exercicio_id:int, serie:int, repeticoes:int, carga:int, comentario:str, data_execucao:Date):
         self.exercicio_id = exercicio_id

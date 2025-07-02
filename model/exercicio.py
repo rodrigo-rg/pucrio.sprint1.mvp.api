@@ -8,7 +8,7 @@ class Exercicio(Base):
     __tablename__ = 'exercicio'
 
     id = Column("pk_exercicio", Integer, primary_key=True)
-    nome = Column(String(140), unique=True)
+    nome = Column(String(50), unique=True)
     # Relacionamento com a tabela Anotacao
     # Um exercício pode ter várias anotações associadas a ele.
     anotacoes = relationship("Anotacao")

@@ -1,7 +1,6 @@
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 from model import Session, Exercicio, Anotacao
-from logger import logger
 from schemas import *
 from flask_cors import CORS
 from datetime import datetime
@@ -45,6 +44,10 @@ def get_anotacao(query: AnotacaoViewSchema):
     """
     session = Session()
     anotacao = session.query(Anotacao).filter(Anotacao.id == query.id).first()
+    if (anotacao is None):
+        # Se a anotação não foi encontrada, retorna um erro 404.
+        error_msg = "Anotação não encontrada na base."
+        return {"mensagem": error_msg}, 404
     # A partir da anotação encontrada, busca o exercício relacionado.
     # O objetivo é obter também o nome do exercício associado à anotação.
     exercicio = session.query(Exercicio).filter(Exercicio.id == anotacao.exercicio_id).first()
@@ -52,7 +55,7 @@ def get_anotacao(query: AnotacaoViewSchema):
 
 
 @app.post('/anotacao', tags=[minhasrotas_tag],
-          responses={"200": AnotacaoViewSchema, "404": ErrorSchema})
+          responses={"200": AnotacaoViewSchema, "400": ErrorSchema})
 def add_anotacao(form: AnotacaoNewSchema):
     """Adiciona uma nova Anotação na base.
 
@@ -76,10 +79,10 @@ def add_anotacao(form: AnotacaoNewSchema):
         if not exercicio:
             exercicio_id = add_exercicio(exercicio_nome)
             if exercicio_id == -1:
-                error_msg = "Não foi possível adicionar anotação, erro ao adicionar exercício :/"
+                error_msg = "Não foi possível adicionar anotação, erro ao adicionar exercício."
                 return {"mensagem": error_msg}, 400
             exercicio = session.query(Exercicio).filter(Exercicio.id == exercicio_id).first()
-
+        # Cria a nova anotação com os dados fornecidos.
         anotacao = Anotacao(
             exercicio_id = exercicio.id,
             serie = serie,
@@ -95,14 +98,14 @@ def add_anotacao(form: AnotacaoNewSchema):
     except (ValueError, TypeError) as e:
         # Captura erros de conversão de tipos, como quando o usuário digita um texto
         error_msg = "Dados inválidos. Verifique os campos digitados."
-        return {"mensagem": error_msg + str(e)}, 400
+        return {"mensagem": error_msg}, 400
 
     except Exception as e:
-        error_msg = "Não foi possível salvar nova anotação :/"
-        return {"mensagem": error_msg + str(e)}, 400
+        error_msg = "Não foi possível salvar nova anotação."
+        return {"mensagem": error_msg}, 400
 
 
-def add_exercicio(exercicio_nome: str):
+def add_exercicio(exercicio_nome: str) -> int:
     """Adiciona um novo Exercicio à base de dados, na tabela de Exercicios.
 
     Retorna o ID do Exercício que foi adicionado.
@@ -114,12 +117,12 @@ def add_exercicio(exercicio_nome: str):
         session.commit()
         return exercicio.id
     except Exception as e:
-        error_msg = "Não foi possível salvar novo exercício :/"
-        return {"mensagem": error_msg}, 400
+        error_msg = "Não foi possível salvar novo exercício."
+        raise Exception(error_msg)
 
 
 @app.delete('/anotacao', tags=[minhasrotas_tag],
-            responses={"200": AnotacaoDelViewSchema, "404": ErrorSchema})
+            responses={"200": AnotacaoDelViewSchema, "400": ErrorSchema, "404": ErrorSchema})
 def del_anotacao(query: AnotacaoDelSchema):
     """Exclui uma Anotação a partir do ID informado.
 
@@ -130,13 +133,12 @@ def del_anotacao(query: AnotacaoDelSchema):
         session = Session()
         count = session.query(Anotacao).filter(Anotacao.id == anotacao_id).delete()
         session.commit()
-
         if count == 0:
             # Se a anotação não foi encontrada
             error_msg = "Anotação não encontrada na base."
             return {"mensagem": error_msg}, 404
-
         return {"mensagem": "Anotação excluída.", "id": anotacao_id}
+    
     except Exception as e:
-        error_msg = "Não foi possível excluir a anotação :/"
+        error_msg = "Não foi possível excluir a anotação."
         return {"mensagem": error_msg}, 400
